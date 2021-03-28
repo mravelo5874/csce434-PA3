@@ -32,13 +32,15 @@
     #define READ    26
     #define WRITE   27
 
+    #define INVALID 99
+
     int ln = 1; pos = 0;
     char* str = NULL;
 %}
 /* BASIC */
 ws          [ \t]
 digit       [0-9]
-num         [1-9][0-9]*|0
+num         [-]?[1-9][0-9]*|0
 cap         [A-Z]
 low         [a-z]
 letter      {cap}|{low}
@@ -79,6 +81,7 @@ NOT         "not"
 WRITEINT    "writeInt"
 READINT     "readInt"
 
+
 %%
 {ws}+       {   
                 /* printf("whitespace len: %i\n", yyleng); */ 
@@ -88,267 +91,239 @@ READINT     "readInt"
 \n          { 
                 ln++;
                 pos = 0;
-            }
+            }  
 
 {comment}   {   
-                // printf("%d\t%d\t ", ln, pos);  
-                // printf("comment: %s", yytext);
                 ln++;
                 pos = 0;
             }
 
 {num}       {   
-                // printf("%d\t%d\t ", ln, pos);  
-                // printf("number: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(NUM);
             }
 
 {id}        {   
-                // printf("%d\t%d\t ", ln, pos);  
-                // printf("id: %s\n", yytext); 
                 pos += yyleng;
-
                 str = yytext;
                 return(ID);
             }
 
 {LP}        {   
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("LP: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(LP);
             }
 
 {RP}        {   
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("RP: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(RP);
             }
 
 {ASGN}      {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("ASGN: %s\n", yytext);
                 pos += yyleng;
-                
                 str = yytext;
                 return(ASGN);
             }
 
 {SC}        {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("SC: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(SC);
             }
 
 {AS}        {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("AS: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(AS);
             }
 
 {POWER}     {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("POWER: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(POWER);
             }
 
 {MULT}      {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("MULT: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(MULT);
             }
 
 {ADD}       {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("ADD: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(ADD);
             }
 
-{COMP}      {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("COMP: %s\n", yytext);
+{COMP}      {              
                 pos += yyleng;
-
                 str = yytext;
                 return(COMP);
             }
 
 {IF}        {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("IF: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(IF);
             }
 
 {THEN}      {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("THEN: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(THEN);
             }
 
 {ELSE}      {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("ELSE: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(ELSE);
             }
 
 {BEGIN}     {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("BEGIN: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(BGN);
             }
 
 {ENDIF}     {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("ENDIF: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(ENDIF);
             }
 
 {WHILE}     {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("WHILE: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(WHL);
             }
 
 {ENDWHILE}  {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("ENDWHILE: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(ENDWHL);
             }
 
 {DO}        {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("DO: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(DO);
             }
 
 {PROGRAM}   {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("PROGRAM: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(PRGM);
             }
 
 {END}       {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("END: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(END);
             }
 
 {VAR}       {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("VAR: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(VAR);
             }
         
 {INT}       {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("INT: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(INT);
             }
 
 {AND}       {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("AND: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(AND);
             }
 
 {OR}        {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("OR: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(OR);
             }
         
 {NOT}       {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("NOT: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(NOT);
             }
         
 {WRITEINT}  {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("WRITEINT: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(WRITE);
             }
 
 {READINT}   {
-                // printf("%d\t%d\t ", ln, pos);
-                // printf("READINT: %s\n", yytext);
                 pos += yyleng;
-
                 str = yytext;
                 return(READ);
             }
+
+.           {
+                pos += yyleng;
+                str = yytext;
+                return(INVALID);
+            } 
 %%
+
+/* BNF GRAMMAR */
+
+// <program>            ::= PROGRAM <declarations> BEGIN <statementSequence> END
+// -------------------------------------------------------------------------------------
+// <declarations>       ::= VAR ident AS <type> SC <declarations>
+//                        | ε
+// -------------------------------------------------------------------------------------
+// <type>               ::= INT 
+// -------------------------------------------------------------------------------------
+// <statementSequence>  ::= <statement> SC <statementSequence>
+//                        | ε
+// -------------------------------------------------------------------------------------
+// <statement>          ::= <assignment>
+//                        | <ifStatement>
+//                        | <whileStatement>
+//                        | <writeInt>
+//                        | ε
+// -------------------------------------------------------------------------------------
+// <assignment>         ::= ident ASGN <expression>
+//                        | ident ASGN READINT
+// -------------------------------------------------------------------------------------
+// <ifStatement>        ::= IF <expression> THEN <statementSequence> <elseClause> ENDIF
+// -------------------------------------------------------------------------------------
+// <elseClause>         ::= ELSE <statementSequence>
+//                        | ε
+// -------------------------------------------------------------------------------------
+// <whileStatement>     ::= WHILE <expression> DO <statementSequence> ENDWHILE
+// -------------------------------------------------------------------------------------
+// <writeInt>           ::= WRITEINT <expression>
+// -------------------------------------------------------------------------------------
+// <expression>         ::= <simpleExpression>
+//                        | <simpleExpression> COMPARE <expression>
+// -------------------------------------------------------------------------------------
+// <simpleExpression>   ::= <term> ADDITIVE <simpleExpression>
+//                        | term OR <simpleexpression>
+//                        |<term>
+// -------------------------------------------------------------------------------------
+// <term>               ::= <factor> MULTIPLICATIVE <term>
+//                        | <factor> AND <term> 
+//                        | <factor>
+// -------------------------------------------------------------------------------------
+// <factor>             ::= <primary> POWER<factor> 
+//                        | <primary>
+// -------------------------------------------------------------------------------------
+// <primary>            ::= ident
+//                        | num
+//                        | LP <expression> RP
+//                        | “-“ <primary>
+//                        | NOT <primary>
+
+
 main(int argc, char* argv[])
 {
     if (argc > 1)
@@ -366,4 +341,83 @@ main(int argc, char* argv[])
     }
 
     return 1;
+}
+
+void program()
+{
+    value = yylex();
+    if (value != PRGM)
+    {
+        
+    }
+}
+
+void declarations()
+{
+
+}
+
+void type()
+{
+
+}
+
+void statementSequence()
+{
+
+}
+
+void statement()
+{
+
+}
+
+void assignment()
+{
+
+}
+
+void ifStatement()
+{
+
+}
+
+void elseClause()
+{
+
+}
+
+void whileStatement()
+{
+
+}
+
+void writeInt()
+{
+
+}
+
+void expression()
+{
+
+}
+
+void simpleExpression()
+{
+
+}
+
+void term()
+{
+
+}
+
+void factor()
+{
+
+}
+
+void primary()
+{
+
 }
