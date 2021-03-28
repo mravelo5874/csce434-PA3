@@ -4,13 +4,7 @@ program
 begin
     N := readInt;
     SQRT := 0;
-
-    qweuyjhwd
-
-    1234432rwer
-
-    234qsc3
-
+    
     % go until SQRT exceeds the square root of N
     while SQRT * SQRT <= N do
         SQRT := SQRT + 1;

@@ -1,6 +1,7 @@
 %{
     #include <stdio.h>
     #include <stdlib.h>
+    #include <string.h>
 
     /* TOKEN INTS */
     #define NUM     0
@@ -34,8 +35,10 @@
 
     #define INVALID 99
 
-    int ln = 1; pos = 0;
+    int ln = 1; 
+    int pos = 0;
     char* str = NULL;
+    int currentToken = 0;
 %}
 /* BASIC */
 ws          [ \t]
@@ -323,54 +326,45 @@ READINT     "readInt"
 //                        | “-“ <primary>
 //                        | NOT <primary>
 
-
-main(int argc, char* argv[])
+/* UTIL FUNCTIONS */
+void printError(char* type, char* msg)
 {
-    if (argc > 1)
-    {
-        FILE *fp = fopen(argv[1], "r");
-        if (fp) yyin = fp;
-    }
-
-    int value = 0;
-    while (value != END)
-    {
-        value = yylex();
-        printf("ln:%d\tpos:%d\t ", ln, pos);
-        printf("symbl:%d\tstr:%s\n", value, str);
-    }
-
-    return 1;
+    printf("[%s] %s at line %d pos %d\n", type, msg, ln, pos);
+    exit(-1);
 }
 
-void program()
+void validateToken(int token, char* str_token)
 {
-    value = yylex();
-    if (value != PRGM)
+    if (currentToken != token)
     {
-        
+        char msg[128] = "expected \'";
+        strcat(msg, str_token);
+        strcat(msg, "\' token but found \'");
+        strcat(msg, str);
+        strcat(msg, "\'");
+
+        printError("SYNTAX ERROR", msg);
     }
 }
 
-void declarations()
+void getNextToken()
 {
-
+    currentToken = yylex();
 }
 
-void type()
+char* getID()
 {
-
+    validateToken(ID, "id");
+    return str;
 }
 
-void statementSequence()
+int getInt()
 {
-
+    validateToken(INT, "integer");
+    return atoi(str);
 }
 
-void statement()
-{
-
-}
+/* GRAMMAR FUNCTIONS */
 
 void assignment()
 {
@@ -397,6 +391,109 @@ void writeInt()
 
 }
 
+void statement()
+{
+    if (currentToken == ID)
+    {
+        assignment();
+    }
+    else if (currentToken == IF)
+    {
+        ifStatement();
+    }
+    else if (currentToken == WHL)
+    {
+        whileStatement();
+    }
+    else if (currentToken == WRITE)
+    {
+        writeInt();
+    }
+    else 
+    {
+        return;
+    }
+}
+
+void statementSequence()
+{
+    getNextToken();
+    // return if next token is not
+    // ID, IF, WHILE, or WRITEINT
+    if (currentToken != ID ||
+        currentToken != IF ||
+        currentToken != WHL ||
+        currentToken != WRITE)
+    {
+        return;
+    }
+
+    // statement
+    statement();
+
+    // SC
+    getNextToken();
+    validateToken(SC, ";");
+
+    statementSequence();
+}
+
+void declarations()
+{
+    // VAR
+    getNextToken();
+    // return if next token is not VAR
+    if (currentToken != VAR)
+    {
+        return;
+    }
+    validateToken(VAR, "var");
+
+    // ID
+    getNextToken();
+    char* id = getID();
+    
+    // AS
+    getNextToken();
+    validateToken(AS, ":");
+
+    // INT
+    getNextToken();
+    int num = getInt();
+
+    // SC
+    getNextToken();
+    validateToken(SC, ";");
+
+    // more declarations
+    declarations();
+}
+
+void program()
+{
+    printf("starting lexical analysis...\n");
+
+    // PRGM
+    getNextToken();
+    validateToken(PRGM, "program");
+
+    // declarations
+    declarations();
+
+    // BEGIN
+    validateToken(BGN, "begin");
+
+    // statementSequence
+    statementSequence();
+
+    validateToken(END, "end");
+
+    printf("lexical analysis complete...\n");
+}
+
+
+/* UNFINISHED GRAMMAR FUNCS */
+
 void expression()
 {
 
@@ -420,4 +517,25 @@ void factor()
 void primary()
 {
 
+}
+
+int main(int argc, char* argv[])
+{
+    if (argc > 1)
+    {
+        FILE *fp = fopen(argv[1], "r");
+        if (fp) yyin = fp;
+    }
+
+    program();
+
+    // int value = 0;
+    // while (value != END)
+    // {
+    //     value = yylex();
+    //     printf("ln:%d\tpos:%d\t ", ln, pos);
+    //     printf("symbl:%d\tstr:%s\n", value, str);
+    // }
+
+    return 1;
 }
