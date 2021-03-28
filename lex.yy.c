@@ -2197,11 +2197,17 @@ void validateToken(int token, char* str_token)
 
         printError("SYNTAX ERROR", msg);
     }
+
+    printf("val token: ");
+    printf("%s\n", str_token);
 }
 
 void getNextToken()
 {
     currentToken = yylex();
+
+    printf("new curr token: ");
+    printf("%d\n", currentToken);
 }
 
 char* getID()
@@ -2218,12 +2224,11 @@ int getInt()
 
 /* GRAMMAR FUNCTIONS */
 
-void assignment()
-{
+// predeclared functions
+void statementSequence(void);
+void ifStatement(void);
 
-}
-
-void ifStatement()
+void expression()
 {
 
 }
@@ -2233,14 +2238,79 @@ void elseClause()
 
 }
 
-void whileStatement()
-{
-
-}
-
 void writeInt()
 {
+    // WRITEINT
+    validateToken(WRITE, "writeInt");
 
+    // expression
+    expression();
+}
+
+void whileStatement()
+{
+    // WHILE
+    validateToken(WHL, "while");
+
+    // expression
+    expression();
+
+    // DO
+    getNextToken();
+    validateToken(DO, "do");
+
+    // statementSequence
+    getNextToken();
+    statementSequence();
+
+    // ENDWHILE
+    getNextToken();
+    validateToken(ENDWHL, "endwhile");
+}
+
+void ifStatement()
+{
+    // IF
+    validateToken(IF, "if");
+
+    // expression
+    expression();
+
+    // THEN
+    getNextToken();
+    validateToken(THEN, "then");
+
+    // statementSequence
+    getNextToken();
+    statementSequence();
+
+    // elseClause
+    elseClause();
+
+    // ENDIF
+    getNextToken();
+    validateToken(ENDIF, "endif");
+}
+
+void assignment()
+{
+    // ID
+    char* id = getID();
+
+    // ASGN
+    getNextToken();
+    validateToken(ASGN, ":=");
+
+    getNextToken();
+    // determine btwn expression or readInt
+    if (currentToken == READ)
+    {
+        // READINT
+    }
+    else
+    {
+        expression();
+    }
 }
 
 void statement()
@@ -2272,9 +2342,9 @@ void statementSequence()
     getNextToken();
     // return if next token is not
     // ID, IF, WHILE, or WRITEINT
-    if (currentToken != ID ||
-        currentToken != IF ||
-        currentToken != WHL ||
+    if (currentToken != ID &&
+        currentToken != IF &&
+        currentToken != WHL &&
         currentToken != WRITE)
     {
         return;
@@ -2345,11 +2415,6 @@ void program()
 
 
 /* UNFINISHED GRAMMAR FUNCS */
-
-void expression()
-{
-
-}
 
 void simpleExpression()
 {
