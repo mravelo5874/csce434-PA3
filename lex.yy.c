@@ -2202,12 +2202,28 @@ void validateToken(int token, char* str_token)
     printf("%s\n", str_token);
 }
 
+char* getTokenStr(int n)
+{
+    switch(n)
+    {
+        default:
+        case NUM:
+            return "NUM";
+        case ID:
+            return "ID";
+        case LP:
+            return "LP";
+        case RP:
+            return "ASGN";
+    }
+}
+
 void getNextToken()
 {
     currentToken = yylex();
 
     printf("new curr token: ");
-    printf("%d\n", currentToken);
+    printf("%s\n", getTokenStr(currentToken));
 }
 
 char* getID()

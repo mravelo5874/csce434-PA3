@@ -4,7 +4,7 @@ program
 begin
     N := readInt;
     SQRT := 0;
-    
+
     % go until SQRT exceeds the square root of N
     while SQRT * SQRT <= N do
         SQRT := SQRT + 1;
@@ -15,3 +15,34 @@ begin
     writeInt SQRT;
 
 end
+
+#define NUM     0
+#define ID      1
+#define LP      2
+#define RP      3
+#define ASGN    4
+#define SC      5
+#define AS      6
+#define POWER   7
+#define MULT    8
+#define ADD     9
+#define COMP    10
+#define IF      11
+#define THEN    12
+#define ELSE    13
+#define BGN     14
+#define ENDIF   15
+#define WHL     16
+#define ENDWHL  17
+#define DO      18
+#define PRGM    19
+#define END     20
+#define VAR     21
+#define INT     22
+#define AND     23
+#define OR      24
+#define NOT     25
+#define READ    26
+#define WRITE   27
+
+#define INVALID 99
