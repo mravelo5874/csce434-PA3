@@ -40,12 +40,13 @@
     int pos = 0;
     char* str = NULL;
     int currentToken = 0;
-    bool printTree = true;
+    bool printTree = false;
+    bool isValidated = true;
 %}
 /* BASIC */
 ws          [ \t]
 digit       [0-9]
-num         [-]?[1-9][0-9]*|0
+num         [1-9][0-9]*|0
 cap         [A-Z]
 low         [a-z]
 letter      {cap}|{low}
@@ -94,6 +95,7 @@ READINT     "readInt"
             }
 
 \n          { 
+                printf("\n");
                 ln++;
                 pos = 0;
             }  
@@ -329,43 +331,6 @@ READINT     "readInt"
 //                        | NOT <primary>
 
 /* UTIL FUNCTIONS */
-void printError(char* type, char* msg)
-{
-    printf("[%s] %s at line %d pos %d\n", type, msg, ln, pos);
-    exit(-1);
-}
-
-void printSyntaxTree(char* func, bool start)
-{
-    if (!printTree) return;
-
-    if (start)
-    {
-        printf("*starting %s\n", func);
-    }
-    else
-    {
-        printf("*ending %s\n", func);
-    }
-}
-
-void validateToken(int token, char* str_token)
-{
-    if (currentToken != token)
-    {
-        char msg[128] = "expected \'";
-        strcat(msg, str_token);
-        strcat(msg, "\' token but found \'");
-        strcat(msg, str);
-        strcat(msg, "\'");
-
-        printError("SYNTAX ERROR", msg);
-    }
-
-    // printf("val token: ");
-    // printf("%s\n", str_token);
-}
-
 char* getTokenStr(int n)
 {
     switch(n)
@@ -432,24 +397,71 @@ char* getTokenStr(int n)
     }
 }
 
+void printError(char* type, char* msg)
+{
+    printf("[%s] %s at line %d pos %d\n", type, msg, ln, pos);
+    exit(-1);
+}
+
+void printSyntaxTree(char* func, bool start)
+{
+    if (!printTree) return;
+
+    if (start)
+    {
+        printf("*starting %s\n", func);
+    }
+    else
+    {
+        printf("*ending %s\n", func);
+    }
+}
+
+void validateToken(int token, char* _str)
+{
+    if (currentToken != token)
+    {
+        char msg[128] = "expected \'";
+        strcat(msg, _str);
+        strcat(msg, "\' token but found \'");
+        strcat(msg, str);
+        strcat(msg, "\'");
+
+        printError("SYNTAX ERROR", msg);
+    }
+    
+    isValidated = true;
+    printf("<%s, %s> ", getTokenStr(currentToken), _str);
+}
+
 void getNextToken()
 {
+    if (!isValidated)
+        return;
+
     currentToken = yylex();
+    isValidated = false;
 
-    printf("new curr token: ");
-    printf("%s\n", getTokenStr(currentToken));
+    // printf("new curr token: ");
+    // printf("%s\n", getTokenStr(currentToken));
 }
 
-char* getID()
+char* addQuotes(char* _str)
 {
-    validateToken(ID, "id");
-    return str;
+    char* msg = "\"";
+    strcat(msg, _str);
+    strcat(msg, "\"");
+    return msg;
 }
 
-int getInt()
+void getID()
 {
-    validateToken(INT, "integer");
-    return atoi(str);
+    validateToken(ID, addQuotes(str));
+}
+
+void getNum()
+{
+    validateToken(NUM, str);
 }
 
 /* GRAMMAR FUNCTIONS */
@@ -465,33 +477,29 @@ void primary()
 {
     printSyntaxTree("primary()", true);
 
-    // can be ID, NUM, LP EXPR RP, "-" PRIMARY, or NOT PRIMARY
     getNextToken();
-
+    // can be ID, NUM, LP EXPR RP, "-" PRIMARY, or NOT PRIMARY
     if (currentToken == ID)
     {
-        validateToken(ID, "id");
-        char* id = str;
+        getID();
     }
     else if (currentToken == NUM)
     {
-        validateToken(NUM, "num");
-        char* num = str;
-
+        getNum();
     }
     else if (currentToken == LP)
     {
-        validateToken(LP, "(");
+        validateToken(LP, "_");
         
         // expression
         expression();
 
         getNextToken();
-        validateToken(RP, ")");
+        validateToken(RP, "_");
     }
     else if (currentToken == NOT)
     {
-        validateToken(NOT, "not");
+        validateToken(NOT, "_");
 
         // primary
         primary();
@@ -502,7 +510,7 @@ void primary()
         printError("SYNTAX", "invalid token");
     }
 
-    printSyntaxTree("term()", false);
+    printSyntaxTree("primary()", false);
 }
 
 void factor()
@@ -516,7 +524,7 @@ void factor()
     getNextToken();
     if (currentToken == POWER)
     {
-        validateToken(POWER, "**");
+        validateToken(POWER, "_");
     }
     else
     {
@@ -541,11 +549,11 @@ void term()
     getNextToken();
     if (currentToken == MULT)
     {
-        validateToken(MULT, "mult");
+        validateToken(MULT, addQuotes(str));
     }
     else if (currentToken == AND)
     {
-        validateToken(AND, "and");
+        validateToken(AND, "_");
     }
     else
     {
@@ -570,11 +578,11 @@ void simpleExpression()
     getNextToken();
     if (currentToken == ADD)
     {
-        validateToken(ADD, "add");
+        validateToken(ADD, addQuotes(str));
     }
     else if (currentToken == OR)
     {
-        validateToken(OR, "or");
+        validateToken(OR, "_");
     }
     else 
     {
@@ -600,7 +608,7 @@ void expression()
     if (currentToken == COMP)
     {
         // COMP
-        validateToken(COMP, "comp");
+        validateToken(COMP, str);
 
         // expression
         expression();
@@ -614,7 +622,7 @@ void writeInt()
     printSyntaxTree("writeInt()", true);
 
     // WRITEINT
-    validateToken(WRITE, "writeInt");
+    validateToken(WRITE, "_");
 
     // expression
     expression();
@@ -627,14 +635,14 @@ void whileStatement()
     printSyntaxTree("whileStatement()", true);
 
     // WHILE
-    validateToken(WHL, "while");
+    validateToken(WHL, "_");
 
     // expression
     expression();
 
     // DO
     getNextToken();
-    validateToken(DO, "do");
+    validateToken(DO, "_");
 
     // statementSequence
     getNextToken();
@@ -642,7 +650,7 @@ void whileStatement()
 
     // ENDWHILE
     getNextToken();
-    validateToken(ENDWHL, "endwhile");
+    validateToken(ENDWHL, "_");
 
     printSyntaxTree("whileStatement()", false);
 }
@@ -654,7 +662,7 @@ void elseClause()
     getNextToken();
     if (currentToken == ELSE)
     {
-        validateToken(ELSE, "else");
+        validateToken(ELSE, "_");
         
         // statementSequence
         statementSequence();
@@ -668,14 +676,14 @@ void ifStatement()
     printSyntaxTree("ifStatement()", true);
 
     // IF
-    validateToken(IF, "if");
+    validateToken(IF, "_");
 
     // expression
     expression();
 
     // THEN
     getNextToken();
-    validateToken(THEN, "then");
+    validateToken(THEN, "_");
 
     // statementSequence
     getNextToken();
@@ -685,7 +693,7 @@ void ifStatement()
     elseClause();
 
     // ENDIF
-    validateToken(ENDIF, "endif");
+    validateToken(ENDIF, "_");
 
     printSyntaxTree("ifStatement()", false);
 }
@@ -695,20 +703,22 @@ void assignment()
     printSyntaxTree("assignment()", true);
 
     // ID
-    char* id = getID();
+    getID();
 
     // ASGN
     getNextToken();
-    validateToken(ASGN, ":=");
+    validateToken(ASGN, "_");
 
     getNextToken();
     // determine btwn expression or readInt
     if (currentToken == READ)
     {
         // READINT
+        validateToken(READ, "_");
     }
     else
     {
+        // expression
         expression();
     }
 
@@ -760,7 +770,7 @@ void statementSequence()
 
     // SC
     getNextToken();
-    validateToken(SC, ";");
+    validateToken(SC, "_");
 
     statementSequence();
 
@@ -779,23 +789,23 @@ void declarations()
         printSyntaxTree("declarations()", false);
         return;
     }
-    validateToken(VAR, "var");
+    validateToken(VAR, "_");
 
     // ID
     getNextToken();
-    char* id = getID();
+    getID();
     
     // AS
     getNextToken();
-    validateToken(AS, ":");
+    validateToken(AS, "_");
 
     // INT
     getNextToken();
-    int num = getInt();
+    validateToken(INT, "_");
 
     // SC
     getNextToken();
-    validateToken(SC, ";");
+    validateToken(SC, "_");
 
     // more declarations
     declarations();
@@ -810,18 +820,18 @@ void program()
 
     // PRGM
     getNextToken();
-    validateToken(PRGM, "program");
+    validateToken(PRGM, "_");
 
     // declarations
     declarations();
 
     // BEGIN
-    validateToken(BGN, "begin");
+    validateToken(BGN, "_");
 
     // statementSequence
     statementSequence();
 
-    validateToken(END, "end");
+    validateToken(END, "_");
     
     printSyntaxTree("program()", false);
     printf("lexical analysis complete...\n");
