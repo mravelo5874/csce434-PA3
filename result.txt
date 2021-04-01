@@ -1,0 +1,17 @@
+<PROGRAM,_> 
+<VAR,_> <ID, "N"> <AS,_> <INT,_> <SC,_> 
+<VAR,_> <ID, "SQRT"> <AS,_> <INT,_> <SC,_> 
+<BEGIN,_>
+<ID, "N"> <ASGN,_> <READINT,_> <SC,_> 
+<ID, "SQRT"> <ASGN,_> <NUM, 0> <SC,_> 
+<WHILE,_> <ID, "SQRT"> <MULTIPLICATIVE,"*"> <ID, "SQRT"> <COMPARE,"<="> <ID, "N"> <DO,_>
+<ID, "SQRT"> <ASGN,_> <ID, "SQRT"> <ADDITIVE,"+"> <NUM, 1> <SC,_> 
+<WHILE,_> <SC,_> 
+<ID, "SQRT"> <ASGN,_> <ID, "SQRT"> <ADDITIVE,"1"> <NUM, 1> <SC,_> 
+<WRITEINT,_> <ID, "SQRT"> <SC,_>
+<END,_>
+
+Symbol Table
+-------------
+N     int
+SQRT  int
