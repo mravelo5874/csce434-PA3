@@ -14,4 +14,9 @@ begin
 
     writeInt SQRT;
 
+    if 2 >= 2 then
+        N := N ** N;
+    else
+        N := N div N;
+    endif;
 end

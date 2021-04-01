@@ -39,9 +39,14 @@
     int ln = 1; 
     int pos = 0;
     char* str = NULL;
+
     int currentToken = 0;
     bool printTree = false;
     bool isValidated = true;
+
+    // SYMBOL TABLE
+    char symTab[64][128];
+    int symIndex = 0;
 %}
 /* BASIC */
 ws          [ \t]
@@ -64,7 +69,7 @@ AS          ":"
 POWER       "**"
 MULT        "*"|"div"|"mod"
 ADD         "+"|"-"
-COMP        "="|"<>"|"<"|">"|"<="|">="
+COMP        "<>"|"<="|">="|"<"|">"|"="
 
 /* KEYWORDS */
 IF          "if"
@@ -94,9 +99,9 @@ READINT     "readInt"
                 pos += yyleng;
             }
 
-\n          { 
+\n+         { 
                 printf("\n");
-                ln++;
+                ln += yyleng;
                 pos = 0;
             }  
 
@@ -399,7 +404,7 @@ char* getTokenStr(int n)
 
 void printError(char* type, char* msg)
 {
-    printf("[%s] %s at line %d pos %d\n", type, msg, ln, pos);
+    printf("\n\n[%s] %s at line %d pos %d\n", type, msg, ln, pos);
     exit(-1);
 }
 
@@ -422,7 +427,7 @@ void validateToken(int token, char* _str)
     if (currentToken != token)
     {
         char msg[128] = "expected \'";
-        strcat(msg, _str);
+        strcat(msg, getTokenStr(token));
         strcat(msg, "\' token but found \'");
         strcat(msg, str);
         strcat(msg, "\'");
@@ -448,10 +453,9 @@ void getNextToken()
 
 char* addQuotes(char* _str)
 {
-    char* msg = "\"";
-    strcat(msg, _str);
-    strcat(msg, "\"");
-    return msg;
+    char* res = strdup("\0");
+    snprintf(res, sizeof(res), "\"%s\"", _str);
+    return res;
 }
 
 void getID()
@@ -464,14 +468,25 @@ void getNum()
     validateToken(NUM, str);
 }
 
+void addToSymbolTable(char* symbol)
+{
+    // check to see if symbol is in table already
+    for (int i = 0; i < symIndex; i++)
+    {
+        if (symTab[i] == symbol)
+            return;
+    }
+
+    strcpy(symTab[symIndex], symbol);
+    symIndex++;
+}
+
 /* GRAMMAR FUNCTIONS */
 
 // predeclared functions
 void statementSequence(void);
 void ifStatement(void);
 void expression(void);
-
-
 
 void primary()
 {
@@ -507,7 +522,9 @@ void primary()
     else
     {
         // send error?
-        printError("SYNTAX", "invalid token");
+        char buff[128];
+        snprintf(buff, sizeof(buff), "invalid token \'%s\'", str);
+        printError("SYNTAX", buff);
     }
 
     printSyntaxTree("primary()", false);
@@ -608,7 +625,7 @@ void expression()
     if (currentToken == COMP)
     {
         // COMP
-        validateToken(COMP, str);
+        validateToken(COMP, addQuotes(str));
 
         // expression
         expression();
@@ -794,6 +811,8 @@ void declarations()
     // ID
     getNextToken();
     getID();
+    // add to symbol table
+    addToSymbolTable(str);
     
     // AS
     getNextToken();
@@ -834,9 +853,19 @@ void program()
     validateToken(END, "_");
     
     printSyntaxTree("program()", false);
-    printf("lexical analysis complete...\n");
+    printf("\nlexical analysis complete...\n");
 }
 
+void symbolTable()
+{
+    printf("\nSymbol Table");
+    printf("\n-------------\n");
+
+    for (int i = 0; i < symIndex; i++)
+    {
+        printf("%s\tint\n", symTab[i]);
+    }
+}
 
 int main(int argc, char* argv[])
 {
@@ -847,14 +876,7 @@ int main(int argc, char* argv[])
     }
 
     program();
-
-    // int value = 0;
-    // while (value != END)
-    // {
-    //     value = yylex();
-    //     printf("ln:%d\tpos:%d\t ", ln, pos);
-    //     printf("symbl:%d\tstr:%s\n", value, str);
-    // }
+    symbolTable();
 
     return 1;
 }
