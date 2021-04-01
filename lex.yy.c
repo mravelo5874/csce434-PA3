@@ -509,6 +509,7 @@ char *yytext;
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
+    #include <stdbool.h>
 
     /* TOKEN INTS */
     #define NUM     0
@@ -546,13 +547,14 @@ char *yytext;
     int pos = 0;
     char* str = NULL;
     int currentToken = 0;
-#line 550 "lex.yy.c"
+    bool printTree = true;
+#line 552 "lex.yy.c"
 /* BASIC */
 /* WORDS */
 /* SYMBOLS & OPERATORS */
 /* KEYWORDS */
 /* PROCEDURES */
-#line 556 "lex.yy.c"
+#line 558 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -769,9 +771,9 @@ YY_DECL
 		}
 
 	{
-#line 88 "my_spec.l"
+#line 90 "my_spec.l"
 
-#line 775 "lex.yy.c"
+#line 777 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -830,7 +832,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 89 "my_spec.l"
+#line 91 "my_spec.l"
 {   
                 /* printf("whitespace len: %i\n", yyleng); */ 
                 pos += yyleng;
@@ -839,7 +841,7 @@ YY_RULE_SETUP
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 94 "my_spec.l"
+#line 96 "my_spec.l"
 { 
                 ln++;
                 pos = 0;
@@ -848,7 +850,7 @@ YY_RULE_SETUP
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 99 "my_spec.l"
+#line 101 "my_spec.l"
 {   
                 ln++;
                 pos = 0;
@@ -856,7 +858,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 104 "my_spec.l"
+#line 106 "my_spec.l"
 {   
                 pos += yyleng;
                 str = yytext;
@@ -865,7 +867,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 110 "my_spec.l"
+#line 112 "my_spec.l"
 {   
                 pos += yyleng;
                 str = yytext;
@@ -874,7 +876,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 116 "my_spec.l"
+#line 118 "my_spec.l"
 {   
                 pos += yyleng;
                 str = yytext;
@@ -883,7 +885,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 122 "my_spec.l"
+#line 124 "my_spec.l"
 {   
                 pos += yyleng;
                 str = yytext;
@@ -892,7 +894,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 128 "my_spec.l"
+#line 130 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -901,7 +903,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 134 "my_spec.l"
+#line 136 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -910,7 +912,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 140 "my_spec.l"
+#line 142 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -919,7 +921,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 146 "my_spec.l"
+#line 148 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -928,7 +930,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 152 "my_spec.l"
+#line 154 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -937,7 +939,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 158 "my_spec.l"
+#line 160 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -946,7 +948,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 164 "my_spec.l"
+#line 166 "my_spec.l"
 {              
                 pos += yyleng;
                 str = yytext;
@@ -955,7 +957,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 170 "my_spec.l"
+#line 172 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -964,7 +966,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 176 "my_spec.l"
+#line 178 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -973,7 +975,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 182 "my_spec.l"
+#line 184 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -982,7 +984,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 188 "my_spec.l"
+#line 190 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -991,7 +993,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 194 "my_spec.l"
+#line 196 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1000,7 +1002,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 200 "my_spec.l"
+#line 202 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1009,7 +1011,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 206 "my_spec.l"
+#line 208 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1018,7 +1020,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 212 "my_spec.l"
+#line 214 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1027,7 +1029,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 218 "my_spec.l"
+#line 220 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1036,7 +1038,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 224 "my_spec.l"
+#line 226 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1045,7 +1047,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 230 "my_spec.l"
+#line 232 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1054,7 +1056,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 236 "my_spec.l"
+#line 238 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1063,7 +1065,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 242 "my_spec.l"
+#line 244 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1072,7 +1074,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 248 "my_spec.l"
+#line 250 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1081,7 +1083,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 254 "my_spec.l"
+#line 256 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1090,7 +1092,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 260 "my_spec.l"
+#line 262 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1099,7 +1101,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 266 "my_spec.l"
+#line 268 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1108,7 +1110,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 272 "my_spec.l"
+#line 274 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1117,10 +1119,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 277 "my_spec.l"
+#line 279 "my_spec.l"
 ECHO;
 	YY_BREAK
-#line 1124 "lex.yy.c"
+#line 1126 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2125,7 +2127,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 277 "my_spec.l"
+#line 279 "my_spec.l"
 
 
 /* BNF GRAMMAR */
@@ -2185,6 +2187,20 @@ void printError(char* type, char* msg)
     exit(-1);
 }
 
+void printSyntaxTree(char* func, bool start)
+{
+    if (!printTree) return;
+
+    if (start)
+    {
+        printf("*starting %s\n", func);
+    }
+    else
+    {
+        printf("*ending %s\n", func);
+    }
+}
+
 void validateToken(int token, char* str_token)
 {
     if (currentToken != token)
@@ -2198,8 +2214,8 @@ void validateToken(int token, char* str_token)
         printError("SYNTAX ERROR", msg);
     }
 
-    printf("val token: ");
-    printf("%s\n", str_token);
+    // printf("val token: ");
+    // printf("%s\n", str_token);
 }
 
 char* getTokenStr(int n)
@@ -2214,7 +2230,57 @@ char* getTokenStr(int n)
         case LP:
             return "LP";
         case RP:
+            return "RP";
+        case ASGN:
             return "ASGN";
+        case SC:
+            return "SC";
+        case AS:
+            return "AS";
+        case POWER:
+            return "POWER";
+        case MULT:
+            return "MULT";
+        case ADD:
+            return "ADD";
+        case COMP:
+            return "COMP";
+        case IF:
+            return "IF";
+        case THEN:
+            return "THEN";
+        case ELSE:
+            return "ELSE";
+        case BGN:
+            return "BEGIN";
+        case ENDIF:
+            return "ENDIF";
+        case WHL:
+            return "WHILE";
+        case ENDWHL:
+            return "ENDWHILE";
+        case DO:
+            return "DO";
+        case PRGM:
+            return "PROGRAM";
+        case END:
+            return "END";
+        case VAR:
+            return "VAR";
+        case INT:
+            return "INT";
+        case AND:
+            return "AND";
+        case OR:
+            return "OR";
+        case NOT:
+            return "NOT";
+        case READ:
+            return "READINT";
+        case WRITE:
+            return "WRITEINT";
+        case INVALID:
+            return "INVALID";
     }
 }
 
@@ -2243,28 +2309,175 @@ int getInt()
 // predeclared functions
 void statementSequence(void);
 void ifStatement(void);
+void expression(void);
+
+
+
+void primary()
+{
+    printSyntaxTree("primary()", true);
+
+    // can be ID, NUM, LP EXPR RP, "-" PRIMARY, or NOT PRIMARY
+    getNextToken();
+
+    if (currentToken == ID)
+    {
+        validateToken(ID, "id");
+        char* id = str;
+    }
+    else if (currentToken == NUM)
+    {
+        validateToken(NUM, "num");
+        char* num = str;
+
+    }
+    else if (currentToken == LP)
+    {
+        validateToken(LP, "(");
+        
+        // expression
+        expression();
+
+        getNextToken();
+        validateToken(RP, ")");
+    }
+    else if (currentToken == NOT)
+    {
+        validateToken(NOT, "not");
+
+        // primary
+        primary();
+    }
+    else
+    {
+        // send error?
+        printError("SYNTAX", "invalid token");
+    }
+
+    printSyntaxTree("term()", false);
+}
+
+void factor()
+{
+    printSyntaxTree("factor()", true);
+
+    // primary
+    primary();
+
+    // determine if next token is POWER
+    getNextToken();
+    if (currentToken == POWER)
+    {
+        validateToken(POWER, "**");
+    }
+    else
+    {
+        printSyntaxTree("factor()", false);
+        return;
+    }
+
+    // factor
+    factor();
+
+    printSyntaxTree("factor()", false);
+}
+
+void term()
+{
+    printSyntaxTree("term()", true);
+
+    // factor
+    factor();
+
+    // determine if next token is MULT or AND
+    getNextToken();
+    if (currentToken == MULT)
+    {
+        validateToken(MULT, "mult");
+    }
+    else if (currentToken == AND)
+    {
+        validateToken(AND, "and");
+    }
+    else
+    {
+        printSyntaxTree("term()", false);
+        return;
+    }
+
+    // term
+    term();
+
+    printSyntaxTree("term()", false);
+}
+
+void simpleExpression()
+{
+    printSyntaxTree("simpleExpression()", true);
+
+    // term
+    term();
+
+    // determine if next token is ADD or OR
+    getNextToken();
+    if (currentToken == ADD)
+    {
+        validateToken(ADD, "add");
+    }
+    else if (currentToken == OR)
+    {
+        validateToken(OR, "or");
+    }
+    else 
+    {
+        printSyntaxTree("simpleExpression()", false);
+        return;
+    }
+
+    // simpleExpression
+    simpleExpression();
+
+    printSyntaxTree("simpleExpression()", false);
+}
 
 void expression()
 {
+    printSyntaxTree("expression()", true);
 
-}
+    // simpleExpression
+    simpleExpression();
 
-void elseClause()
-{
+    // determine if next token is COMP
+    getNextToken();
+    if (currentToken == COMP)
+    {
+        // COMP
+        validateToken(COMP, "comp");
 
+        // expression
+        expression();
+    }
+
+    printSyntaxTree("expression()", false);
 }
 
 void writeInt()
 {
+    printSyntaxTree("writeInt()", true);
+
     // WRITEINT
     validateToken(WRITE, "writeInt");
 
     // expression
     expression();
+
+    printSyntaxTree("writeInt()", false);
 }
 
 void whileStatement()
 {
+    printSyntaxTree("whileStatement()", true);
+
     // WHILE
     validateToken(WHL, "while");
 
@@ -2282,10 +2495,30 @@ void whileStatement()
     // ENDWHILE
     getNextToken();
     validateToken(ENDWHL, "endwhile");
+
+    printSyntaxTree("whileStatement()", false);
+}
+
+void elseClause()
+{
+    printSyntaxTree("elseClause()", true);
+
+    getNextToken();
+    if (currentToken == ELSE)
+    {
+        validateToken(ELSE, "else");
+        
+        // statementSequence
+        statementSequence();
+    }
+
+    printSyntaxTree("elseClause()", false);
 }
 
 void ifStatement()
 {
+    printSyntaxTree("ifStatement()", true);
+
     // IF
     validateToken(IF, "if");
 
@@ -2304,12 +2537,15 @@ void ifStatement()
     elseClause();
 
     // ENDIF
-    getNextToken();
     validateToken(ENDIF, "endif");
+
+    printSyntaxTree("ifStatement()", false);
 }
 
 void assignment()
 {
+    printSyntaxTree("assignment()", true);
+
     // ID
     char* id = getID();
 
@@ -2327,10 +2563,14 @@ void assignment()
     {
         expression();
     }
+
+    printSyntaxTree("assignment()", false);
 }
 
 void statement()
 {
+    printSyntaxTree("statement()", true);
+
     if (currentToken == ID)
     {
         assignment();
@@ -2347,14 +2587,14 @@ void statement()
     {
         writeInt();
     }
-    else 
-    {
-        return;
-    }
+    
+    printSyntaxTree("statement()", false);
 }
 
 void statementSequence()
 {
+    printSyntaxTree("statementSequence()", true);
+
     getNextToken();
     // return if next token is not
     // ID, IF, WHILE, or WRITEINT
@@ -2363,6 +2603,7 @@ void statementSequence()
         currentToken != WHL &&
         currentToken != WRITE)
     {
+        printSyntaxTree("statementSequence()", false);
         return;
     }
 
@@ -2374,15 +2615,20 @@ void statementSequence()
     validateToken(SC, ";");
 
     statementSequence();
+
+    printSyntaxTree("statementSequence()", false);
 }
 
 void declarations()
 {
+    printSyntaxTree("declarations()", true);
+
     // VAR
     getNextToken();
     // return if next token is not VAR
     if (currentToken != VAR)
     {
+        printSyntaxTree("declarations()", false);
         return;
     }
     validateToken(VAR, "var");
@@ -2405,11 +2651,14 @@ void declarations()
 
     // more declarations
     declarations();
+
+    printSyntaxTree("declarations()", false);
 }
 
 void program()
 {
     printf("starting lexical analysis...\n");
+    printSyntaxTree("program()", true);
 
     // PRGM
     getNextToken();
@@ -2425,32 +2674,11 @@ void program()
     statementSequence();
 
     validateToken(END, "end");
-
+    
+    printSyntaxTree("program()", false);
     printf("lexical analysis complete...\n");
 }
 
-
-/* UNFINISHED GRAMMAR FUNCS */
-
-void simpleExpression()
-{
-
-}
-
-void term()
-{
-
-}
-
-void factor()
-{
-
-}
-
-void primary()
-{
-
-}
 
 int main(int argc, char* argv[])
 {

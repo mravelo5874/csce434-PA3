@@ -2,6 +2,7 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
+    #include <stdbool.h>
 
     /* TOKEN INTS */
     #define NUM     0
@@ -39,6 +40,7 @@
     int pos = 0;
     char* str = NULL;
     int currentToken = 0;
+    bool printTree = true;
 %}
 /* BASIC */
 ws          [ \t]
@@ -333,6 +335,20 @@ void printError(char* type, char* msg)
     exit(-1);
 }
 
+void printSyntaxTree(char* func, bool start)
+{
+    if (!printTree) return;
+
+    if (start)
+    {
+        printf("*starting %s\n", func);
+    }
+    else
+    {
+        printf("*ending %s\n", func);
+    }
+}
+
 void validateToken(int token, char* str_token)
 {
     if (currentToken != token)
@@ -346,8 +362,8 @@ void validateToken(int token, char* str_token)
         printError("SYNTAX ERROR", msg);
     }
 
-    printf("val token: ");
-    printf("%s\n", str_token);
+    // printf("val token: ");
+    // printf("%s\n", str_token);
 }
 
 char* getTokenStr(int n)
@@ -377,7 +393,42 @@ char* getTokenStr(int n)
             return "ADD";
         case COMP:
             return "COMP";
-        case 
+        case IF:
+            return "IF";
+        case THEN:
+            return "THEN";
+        case ELSE:
+            return "ELSE";
+        case BGN:
+            return "BEGIN";
+        case ENDIF:
+            return "ENDIF";
+        case WHL:
+            return "WHILE";
+        case ENDWHL:
+            return "ENDWHILE";
+        case DO:
+            return "DO";
+        case PRGM:
+            return "PROGRAM";
+        case END:
+            return "END";
+        case VAR:
+            return "VAR";
+        case INT:
+            return "INT";
+        case AND:
+            return "AND";
+        case OR:
+            return "OR";
+        case NOT:
+            return "NOT";
+        case READ:
+            return "READINT";
+        case WRITE:
+            return "WRITEINT";
+        case INVALID:
+            return "INVALID";
     }
 }
 
@@ -406,28 +457,175 @@ int getInt()
 // predeclared functions
 void statementSequence(void);
 void ifStatement(void);
+void expression(void);
+
+
+
+void primary()
+{
+    printSyntaxTree("primary()", true);
+
+    // can be ID, NUM, LP EXPR RP, "-" PRIMARY, or NOT PRIMARY
+    getNextToken();
+
+    if (currentToken == ID)
+    {
+        validateToken(ID, "id");
+        char* id = str;
+    }
+    else if (currentToken == NUM)
+    {
+        validateToken(NUM, "num");
+        char* num = str;
+
+    }
+    else if (currentToken == LP)
+    {
+        validateToken(LP, "(");
+        
+        // expression
+        expression();
+
+        getNextToken();
+        validateToken(RP, ")");
+    }
+    else if (currentToken == NOT)
+    {
+        validateToken(NOT, "not");
+
+        // primary
+        primary();
+    }
+    else
+    {
+        // send error?
+        printError("SYNTAX", "invalid token");
+    }
+
+    printSyntaxTree("term()", false);
+}
+
+void factor()
+{
+    printSyntaxTree("factor()", true);
+
+    // primary
+    primary();
+
+    // determine if next token is POWER
+    getNextToken();
+    if (currentToken == POWER)
+    {
+        validateToken(POWER, "**");
+    }
+    else
+    {
+        printSyntaxTree("factor()", false);
+        return;
+    }
+
+    // factor
+    factor();
+
+    printSyntaxTree("factor()", false);
+}
+
+void term()
+{
+    printSyntaxTree("term()", true);
+
+    // factor
+    factor();
+
+    // determine if next token is MULT or AND
+    getNextToken();
+    if (currentToken == MULT)
+    {
+        validateToken(MULT, "mult");
+    }
+    else if (currentToken == AND)
+    {
+        validateToken(AND, "and");
+    }
+    else
+    {
+        printSyntaxTree("term()", false);
+        return;
+    }
+
+    // term
+    term();
+
+    printSyntaxTree("term()", false);
+}
+
+void simpleExpression()
+{
+    printSyntaxTree("simpleExpression()", true);
+
+    // term
+    term();
+
+    // determine if next token is ADD or OR
+    getNextToken();
+    if (currentToken == ADD)
+    {
+        validateToken(ADD, "add");
+    }
+    else if (currentToken == OR)
+    {
+        validateToken(OR, "or");
+    }
+    else 
+    {
+        printSyntaxTree("simpleExpression()", false);
+        return;
+    }
+
+    // simpleExpression
+    simpleExpression();
+
+    printSyntaxTree("simpleExpression()", false);
+}
 
 void expression()
 {
+    printSyntaxTree("expression()", true);
 
-}
+    // simpleExpression
+    simpleExpression();
 
-void elseClause()
-{
+    // determine if next token is COMP
+    getNextToken();
+    if (currentToken == COMP)
+    {
+        // COMP
+        validateToken(COMP, "comp");
 
+        // expression
+        expression();
+    }
+
+    printSyntaxTree("expression()", false);
 }
 
 void writeInt()
 {
+    printSyntaxTree("writeInt()", true);
+
     // WRITEINT
     validateToken(WRITE, "writeInt");
 
     // expression
     expression();
+
+    printSyntaxTree("writeInt()", false);
 }
 
 void whileStatement()
 {
+    printSyntaxTree("whileStatement()", true);
+
     // WHILE
     validateToken(WHL, "while");
 
@@ -445,10 +643,30 @@ void whileStatement()
     // ENDWHILE
     getNextToken();
     validateToken(ENDWHL, "endwhile");
+
+    printSyntaxTree("whileStatement()", false);
+}
+
+void elseClause()
+{
+    printSyntaxTree("elseClause()", true);
+
+    getNextToken();
+    if (currentToken == ELSE)
+    {
+        validateToken(ELSE, "else");
+        
+        // statementSequence
+        statementSequence();
+    }
+
+    printSyntaxTree("elseClause()", false);
 }
 
 void ifStatement()
 {
+    printSyntaxTree("ifStatement()", true);
+
     // IF
     validateToken(IF, "if");
 
@@ -467,12 +685,15 @@ void ifStatement()
     elseClause();
 
     // ENDIF
-    getNextToken();
     validateToken(ENDIF, "endif");
+
+    printSyntaxTree("ifStatement()", false);
 }
 
 void assignment()
 {
+    printSyntaxTree("assignment()", true);
+
     // ID
     char* id = getID();
 
@@ -490,10 +711,14 @@ void assignment()
     {
         expression();
     }
+
+    printSyntaxTree("assignment()", false);
 }
 
 void statement()
 {
+    printSyntaxTree("statement()", true);
+
     if (currentToken == ID)
     {
         assignment();
@@ -510,14 +735,14 @@ void statement()
     {
         writeInt();
     }
-    else 
-    {
-        return;
-    }
+    
+    printSyntaxTree("statement()", false);
 }
 
 void statementSequence()
 {
+    printSyntaxTree("statementSequence()", true);
+
     getNextToken();
     // return if next token is not
     // ID, IF, WHILE, or WRITEINT
@@ -526,6 +751,7 @@ void statementSequence()
         currentToken != WHL &&
         currentToken != WRITE)
     {
+        printSyntaxTree("statementSequence()", false);
         return;
     }
 
@@ -537,15 +763,20 @@ void statementSequence()
     validateToken(SC, ";");
 
     statementSequence();
+
+    printSyntaxTree("statementSequence()", false);
 }
 
 void declarations()
 {
+    printSyntaxTree("declarations()", true);
+
     // VAR
     getNextToken();
     // return if next token is not VAR
     if (currentToken != VAR)
     {
+        printSyntaxTree("declarations()", false);
         return;
     }
     validateToken(VAR, "var");
@@ -568,11 +799,14 @@ void declarations()
 
     // more declarations
     declarations();
+
+    printSyntaxTree("declarations()", false);
 }
 
 void program()
 {
     printf("starting lexical analysis...\n");
+    printSyntaxTree("program()", true);
 
     // PRGM
     getNextToken();
@@ -588,32 +822,11 @@ void program()
     statementSequence();
 
     validateToken(END, "end");
-
+    
+    printSyntaxTree("program()", false);
     printf("lexical analysis complete...\n");
 }
 
-
-/* UNFINISHED GRAMMAR FUNCS */
-
-void simpleExpression()
-{
-
-}
-
-void term()
-{
-
-}
-
-void factor()
-{
-
-}
-
-void primary()
-{
-
-}
 
 int main(int argc, char* argv[])
 {

@@ -1,0 +1,49 @@
+/* BNF GRAMMAR */
+
+// <program>            ::= PROGRAM <declarations> BEGIN <statementSequence> END
+// -------------------------------------------------------------------------------------
+// <declarations>       ::= VAR ident AS <type> SC <declarations>
+//                        | ε
+// -------------------------------------------------------------------------------------
+// <type>               ::= INT 
+// -------------------------------------------------------------------------------------
+// <statementSequence>  ::= <statement> SC <statementSequence>
+//                        | ε
+// -------------------------------------------------------------------------------------
+// <statement>          ::= <assignment>
+//                        | <ifStatement>
+//                        | <whileStatement>
+//                        | <writeInt>
+//                        | ε
+// -------------------------------------------------------------------------------------
+// <assignment>         ::= ident ASGN <expression>
+//                        | ident ASGN READINT
+// -------------------------------------------------------------------------------------
+// <ifStatement>        ::= IF <expression> THEN <statementSequence> <elseClause> ENDIF
+// -------------------------------------------------------------------------------------
+// <elseClause>         ::= ELSE <statementSequence>
+//                        | ε
+// -------------------------------------------------------------------------------------
+// <whileStatement>     ::= WHILE <expression> DO <statementSequence> ENDWHILE
+// -------------------------------------------------------------------------------------
+// <writeInt>           ::= WRITEINT <expression>
+// -------------------------------------------------------------------------------------
+// <expression>         ::= <simpleExpression>
+//                        | <simpleExpression> COMPARE <expression>
+// -------------------------------------------------------------------------------------
+// <simpleExpression>   ::= <term> ADDITIVE <simpleExpression>
+//                        | <term> OR <simpleexpression>
+//                        | <term>
+// -------------------------------------------------------------------------------------
+// <term>               ::= <factor> MULTIPLICATIVE <term>
+//                        | <factor> AND <term> 
+//                        | <factor>
+// -------------------------------------------------------------------------------------
+// <factor>             ::= <primary> POWER <factor> 
+//                        | <primary>
+// -------------------------------------------------------------------------------------
+// <primary>            ::= ident
+//                        | num
+//                        | LP <expression> RP
+//                        | “-“ <primary>
+//                        | NOT <primary>
