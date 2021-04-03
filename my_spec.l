@@ -43,8 +43,11 @@
     int currentToken = 0;
     bool printTree = false;
     bool isValidated = true;
+    bool makingTable = true;
 
     // SYMBOL TABLE
+    // max symbols = 64
+    // max char length = 128
     char symTab[64][128];
     int symIndex = 0;
 %}
@@ -402,6 +405,22 @@ char* getTokenStr(int n)
     }
 }
 
+bool checkSymbolTable(char * sym)
+{
+    if (makingTable)
+        return true;
+
+    // printf("\nlooking for: %s\n", sym);
+    for (int i = 0; i < symIndex; i++)
+    {
+        // printf ("symbol %d: %s\n", i, symTab[i]);
+
+        if (strcmp(symTab[i], sym) == 0)
+            return true;
+    }
+    return false;
+}
+
 void printError(char* type, char* msg)
 {
     printf("\n\n[%s] %s at line %d pos %d\n", type, msg, ln, pos);
@@ -461,6 +480,12 @@ char* addQuotes(char* _str)
 void getID()
 {
     validateToken(ID, addQuotes(str));
+    if (!checkSymbolTable(str))
+    {
+        char buff[128];
+        snprintf(buff, sizeof(buff), "invalid identifier \'%s\'", str);
+        printError("SYMBOL", buff);
+    }
 }
 
 void getNum()
@@ -846,6 +871,9 @@ void program()
 
     // BEGIN
     validateToken(BGN, "_");
+
+    // finished making symbol table
+    makingTable = false;
 
     // statementSequence
     statementSequence();

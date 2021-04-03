@@ -19,4 +19,7 @@ begin
     else
         N := N div N;
     endif;
+
+    N := 3 + 4 + 6 + 5 + 8 + 9 + 100029;
+    
 end

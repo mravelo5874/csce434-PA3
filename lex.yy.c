@@ -550,17 +550,18 @@ char *yytext;
     int currentToken = 0;
     bool printTree = false;
     bool isValidated = true;
+    bool makingTable = true;
 
     // SYMBOL TABLE
     char symTab[64][128];
     int symIndex = 0;
-#line 558 "lex.yy.c"
+#line 559 "lex.yy.c"
 /* BASIC */
 /* WORDS */
 /* SYMBOLS & OPERATORS */
 /* KEYWORDS */
 /* PROCEDURES */
-#line 564 "lex.yy.c"
+#line 565 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -777,9 +778,9 @@ YY_DECL
 		}
 
 	{
-#line 96 "my_spec.l"
+#line 97 "my_spec.l"
 
-#line 783 "lex.yy.c"
+#line 784 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -838,7 +839,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 97 "my_spec.l"
+#line 98 "my_spec.l"
 {   
                 /* printf("whitespace len: %i\n", yyleng); */ 
                 pos += yyleng;
@@ -847,7 +848,7 @@ YY_RULE_SETUP
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 102 "my_spec.l"
+#line 103 "my_spec.l"
 { 
                 printf("\n");
                 ln += yyleng;
@@ -857,7 +858,7 @@ YY_RULE_SETUP
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 108 "my_spec.l"
+#line 109 "my_spec.l"
 {   
                 ln++;
                 pos = 0;
@@ -865,7 +866,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 113 "my_spec.l"
+#line 114 "my_spec.l"
 {   
                 pos += yyleng;
                 str = yytext;
@@ -874,7 +875,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 119 "my_spec.l"
+#line 120 "my_spec.l"
 {   
                 pos += yyleng;
                 str = yytext;
@@ -883,7 +884,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 125 "my_spec.l"
+#line 126 "my_spec.l"
 {   
                 pos += yyleng;
                 str = yytext;
@@ -892,7 +893,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 131 "my_spec.l"
+#line 132 "my_spec.l"
 {   
                 pos += yyleng;
                 str = yytext;
@@ -901,7 +902,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 137 "my_spec.l"
+#line 138 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -910,7 +911,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 143 "my_spec.l"
+#line 144 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -919,7 +920,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 149 "my_spec.l"
+#line 150 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -928,7 +929,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 155 "my_spec.l"
+#line 156 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -937,7 +938,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 161 "my_spec.l"
+#line 162 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -946,7 +947,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 167 "my_spec.l"
+#line 168 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -955,7 +956,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 173 "my_spec.l"
+#line 174 "my_spec.l"
 {              
                 pos += yyleng;
                 str = yytext;
@@ -964,7 +965,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 179 "my_spec.l"
+#line 180 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -973,7 +974,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 185 "my_spec.l"
+#line 186 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -982,7 +983,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 191 "my_spec.l"
+#line 192 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -991,7 +992,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 197 "my_spec.l"
+#line 198 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1000,7 +1001,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 203 "my_spec.l"
+#line 204 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1009,7 +1010,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 209 "my_spec.l"
+#line 210 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1018,7 +1019,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 215 "my_spec.l"
+#line 216 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1027,7 +1028,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 221 "my_spec.l"
+#line 222 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1036,7 +1037,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 227 "my_spec.l"
+#line 228 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1045,7 +1046,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 233 "my_spec.l"
+#line 234 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1054,7 +1055,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 239 "my_spec.l"
+#line 240 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1063,7 +1064,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 245 "my_spec.l"
+#line 246 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1072,7 +1073,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 251 "my_spec.l"
+#line 252 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1081,7 +1082,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 257 "my_spec.l"
+#line 258 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1090,7 +1091,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 263 "my_spec.l"
+#line 264 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1099,7 +1100,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 269 "my_spec.l"
+#line 270 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1108,7 +1109,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 275 "my_spec.l"
+#line 276 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1117,7 +1118,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 281 "my_spec.l"
+#line 282 "my_spec.l"
 {
                 pos += yyleng;
                 str = yytext;
@@ -1126,10 +1127,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 286 "my_spec.l"
+#line 287 "my_spec.l"
 ECHO;
 	YY_BREAK
-#line 1133 "lex.yy.c"
+#line 1134 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2134,7 +2135,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 286 "my_spec.l"
+#line 287 "my_spec.l"
 
 
 /* BNF GRAMMAR */
@@ -2254,6 +2255,22 @@ char* getTokenStr(int n)
     }
 }
 
+bool checkSymbolTable(char * sym)
+{
+    if (makingTable)
+        return true;
+
+    // printf("\nlooking for: %s\n", sym);
+    for (int i = 0; i < symIndex; i++)
+    {
+        // printf ("symbol %d: %s\n", i, symTab[i]);
+
+        if (strcmp(symTab[i], sym) == 0)
+            return true;
+    }
+    return false;
+}
+
 void printError(char* type, char* msg)
 {
     printf("\n\n[%s] %s at line %d pos %d\n", type, msg, ln, pos);
@@ -2313,6 +2330,12 @@ char* addQuotes(char* _str)
 void getID()
 {
     validateToken(ID, addQuotes(str));
+    if (!checkSymbolTable(str))
+    {
+        char buff[128];
+        snprintf(buff, sizeof(buff), "invalid identifier \'%s\'", str);
+        printError("SYMBOL", buff);
+    }
 }
 
 void getNum()
@@ -2698,6 +2721,9 @@ void program()
 
     // BEGIN
     validateToken(BGN, "_");
+
+    // finished making symbol table
+    makingTable = false;
 
     // statementSequence
     statementSequence();
