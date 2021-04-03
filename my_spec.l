@@ -506,6 +506,9 @@ void addToSymbolTable(char* symbol)
     symIndex++;
 }
 
+
+
+
 /* GRAMMAR FUNCTIONS */
 
 // predeclared functions
@@ -536,6 +539,24 @@ void primary()
 
         getNextToken();
         validateToken(RP, "_");
+    }
+    else if (currentToken == ADD)
+    {
+        // determine if '-' is found
+        if (strcmp(str, "-") == 0)
+        {
+            validateToken(ADD, addQuotes(str));
+        }
+        else
+        {
+            // send error?
+            char buff[128];
+            snprintf(buff, sizeof(buff), "invalid token \'%s\'", str);
+            printError("SYNTAX", buff);
+        }
+
+        // primary
+        primary();
     }
     else if (currentToken == NOT)
     {

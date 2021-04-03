@@ -15,3 +15,222 @@ Symbol Table
 -------------
 N     int
 SQRT  int
+
+/ 1 /
+starting lexical analysis...
+<PROGRAM, _> 
+<VAR, _> <ID, "N"> <AS, _> <INT, _> <SC, _> 
+<VAR, _> <ID, "SQRT"> <AS, _> <INT, _> <SC, _> 
+<BEGIN, _> 
+<ID, "N"> <ASGN, _> <READINT, _> <SC, _> 
+<ID, "SQRT"> <ASGN, _> <NUM, 0> <SC, _> 
+<WHILE, _> <ID, "SQRT"> <MULT, "*"> <ID, "SQRT"> <COMP, "<="> <ID, "N"> <DO, _> 
+<ID, "SQRT"> <ASGN, _> <ID, "SQRT"> <ADD, "+"> <NUM, 1> <SC, _> 
+<ENDWHILE, _> <SC, _> 
+<ID, "SQRT"> <ASGN, _> <ID, "SQRT"> <ADD, "-"> <NUM, 1> <SC, _> 
+<WRITEINT, _> <ID, "SQRT"> <SC, _> 
+
+<END, _> 
+lexical analysis complete...
+
+Symbol Table
+-------------
+N	int
+SQRT	int
+
+/ 2 /
+test:
+program
+    var A :integer;
+    var B :integer;
+    var C :integer;
+begin
+    A := 2 * 5;
+    B := A div 3;
+    C := B mod 12;
+
+    A := A and B;
+    B := B or C;
+    C := not C;
+
+    A := (A + 6) - 5 * (2 - B);
+    B := B ** 2;
+    C := -1;
+end
+
+output:
+starting lexical analysis...
+<PROGRAM, _> 
+<VAR, _> <ID, "A"> <AS, _> <INT, _> <SC, _> 
+<VAR, _> <ID, "B"> <AS, _> <INT, _> <SC, _> 
+<VAR, _> <ID, "C"> <AS, _> <INT, _> <SC, _> 
+<BEGIN, _> 
+<ID, "A"> <ASGN, _> <NUM, 2> <MULT, "*"> <NUM, 5> <SC, _> 
+<ID, "B"> <ASGN, _> <ID, "A"> <MULT, "div"> <NUM, 3> <SC, _> 
+<ID, "C"> <ASGN, _> <ID, "B"> <MULT, "mod"> <NUM, 12> <SC, _> 
+<ID, "A"> <ASGN, _> <ID, "A"> <AND, _> <ID, "B"> <SC, _> 
+<ID, "B"> <ASGN, _> <ID, "B"> <OR, _> <ID, "C"> <SC, _> 
+<ID, "C"> <ASGN, _> <NOT, _> <ID, "C"> <SC, _> 
+<ID, "A"> <ASGN, _> <LP, _> <ID, "A"> <ADD, "+"> <NUM, 6> <RP, _> <ADD, "-"> <NUM, 5> <MULT, "*"> <LP, _> <NUM, 2> <ADD, "-"> <ID, "B"> <RP, _> <SC, _> 
+<ID, "B"> <ASGN, _> <ID, "B"> <POWER, _> <NUM, 2> <SC, _> 
+<ID, "C"> <ASGN, _> here<ADD, "-"> <NUM, 1> <SC, _> 
+
+<END, _> 
+lexical analysis complete...
+
+Symbol Table
+-------------
+A	int
+B	int
+C	int
+
+/ 3 /
+test:
+program
+    var VAR1 :integer;
+    var VAR2 :integer;
+begin
+    % test out if then else statement
+    if VAR1 >= VAR2 and 3 < VAR1 or VAR2 = 8 then
+        VAR1 := VAR1 ** 6;
+        VAR2 := VAR1 + 1 + 3 + 45;
+    else 
+        VAR1 := 67;
+        VAR2 := 123 mod 34;
+    endif;
+
+    % test out while statement
+    while VAR1 >= 100 do
+        VAR1 := VAR1 - 1;
+    endwhile;
+end
+
+output:
+starting lexical analysis...
+<PROGRAM, _> 
+<VAR, _> <ID, "VAR1"> <AS, _> <INT, _> <SC, _> 
+<VAR, _> <ID, "VAR2"> <AS, _> <INT, _> <SC, _> 
+<BEGIN, _> 
+<IF, _> <ID, "VAR1"> <COMP, ">="> <ID, "VAR2"> <AND, _> <NUM, 3> <COMP, "<"> <ID, "VAR1"> <OR, _> <ID, "VAR2"> <COMP, "="> <NUM, 8> <THEN, _> 
+<ID, "VAR1"> <ASGN, _> <ID, "VAR1"> <POWER, _> <NUM, 6> <SC, _> 
+<ID, "VAR2"> <ASGN, _> <ID, "VAR1"> <ADD, "+"> <NUM, 1> <ADD, "+"> <NUM, 3> <ADD, "+"> <NUM, 45> <SC, _> 
+<ELSE, _> 
+<ID, "VAR1"> <ASGN, _> <NUM, 67> <SC, _> 
+<ID, "VAR2"> <ASGN, _> <NUM, 123> <MULT, "mod"> <NUM, 34> <SC, _> 
+<ENDIF, _> <SC, _> 
+<WHILE, _> <ID, "VAR1"> <COMP, ">="> <NUM, 100> <DO, _> 
+<ID, "VAR1"> <ASGN, _> <ID, "VAR1"> <ADD, "-"> <NUM, 1> <SC, _> 
+<ENDWHILE, _> <SC, _> 
+<END, _> 
+lexical analysis complete...
+
+Symbol Table
+-------------
+VAR1	int
+VAR2	int
+
+/ 4 /
+test:
+program
+    var D :integer;
+    var E :integer;
+    var F :integer;
+begin
+    % testing to see if error handling works
+    D := 1;
+    E := 2;
+    F := 3;
+    G := 4;
+end
+
+output:
+starting lexical analysis...
+<PROGRAM, _> 
+<VAR, _> <ID, "D"> <AS, _> <INT, _> <SC, _> 
+<VAR, _> <ID, "E"> <AS, _> <INT, _> <SC, _> 
+<VAR, _> <ID, "F"> <AS, _> <INT, _> <SC, _> 
+<BEGIN, _> 
+<ID, "D"> <ASGN, _> <NUM, 1> <SC, _> 
+<ID, "E"> <ASGN, _> <NUM, 2> <SC, _> 
+<ID, "F"> <ASGN, _> <NUM, 3> <SC, _> 
+<ID, "G"> 
+
+[SYMBOL] invalid identifier 'G' at line 10 pos 5
+
+/ 5 /
+test:
+program
+    var D :integer;
+    var E :integer;
+    var F :integer;
+begin
+    % testing to see if error handling works
+    D := 1;
+    E := 2;
+    F := 3;
+
+    if (D + 3 < 0) then
+        E := F * D;
+    endif
+end
+
+output:
+starting lexical analysis...
+<PROGRAM, _> 
+<VAR, _> <ID, "D"> <AS, _> <INT, _> <SC, _> 
+<VAR, _> <ID, "E"> <AS, _> <INT, _> <SC, _> 
+<VAR, _> <ID, "F"> <AS, _> <INT, _> <SC, _> 
+<BEGIN, _> 
+<ID, "D"> <ASGN, _> <NUM, 1> <SC, _> 
+<ID, "E"> <ASGN, _> <NUM, 2> <SC, _> 
+<ID, "F"> <ASGN, _> <NUM, 3> <SC, _> 
+<IF, _> <LP, _> <ID, "D"> <ADD, "+"> <NUM, 3> <COMP, "<"> <NUM, 0> <RP, _> <THEN, _> 
+<ID, "E"> <ASGN, _> <ID, "F"> <MULT, "*"> <ID, "D"> <SC, _> 
+<ENDIF, _> 
+
+
+[SYNTAX ERROR] expected 'SC' token but found 'end' at line 14 pos 3
+
+
+/ 6 /
+test:
+program
+    var D :integer;
+    var E :integer;
+    var F :integer;
+begin
+    % testing to see if error handling works
+    D := 1;
+    E := 2;
+    F := 3;
+
+    if (D + 3 < 0) then
+        E := F * D;
+    endif;
+
+    while D + F < E do
+        E := E - 2;
+    endwhile;
+
+    & % this is an unexpected char in the text
+end
+
+output:
+starting lexical analysis...
+<PROGRAM, _> 
+<VAR, _> <ID, "D"> <AS, _> <INT, _> <SC, _> 
+<VAR, _> <ID, "E"> <AS, _> <INT, _> <SC, _> 
+<VAR, _> <ID, "F"> <AS, _> <INT, _> <SC, _> 
+<BEGIN, _> 
+<ID, "D"> <ASGN, _> <NUM, 1> <SC, _> 
+<ID, "E"> <ASGN, _> <NUM, 2> <SC, _> 
+<ID, "F"> <ASGN, _> <NUM, 3> <SC, _> 
+<IF, _> <LP, _> <ID, "D"> <ADD, "+"> <NUM, 3> <COMP, "<"> <NUM, 0> <RP, _> <THEN, _> 
+<ID, "E"> <ASGN, _> <ID, "F"> <MULT, "*"> <ID, "D"> <SC, _> 
+<ENDIF, _> <SC, _> 
+<WHILE, _> <ID, "D"> <ADD, "+"> <ID, "F"> <COMP, "<"> <ID, "E"> <DO, _> 
+<ID, "E"> <ASGN, _> <ID, "E"> <ADD, "-"> <NUM, 2> <SC, _> 
+<ENDWHILE, _> <SC, _> 
+
+
+[SYNTAX ERROR] expected 'END' token but found '&' at line 19 pos 5

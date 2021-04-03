@@ -1,25 +1,20 @@
 program
-    var N :integer;
-    var SQRT :integer;
+    var D :integer;
+    var E :integer;
+    var F :integer;
 begin
-    N := readInt;
-    SQRT := 0;
+    % testing to see if error handling works
+    D := 1;
+    E := 2;
+    F := 3;
 
-    % go until SQRT exceeds the square root of N
-    while SQRT * SQRT <= N do
-        SQRT := SQRT + 1;
-    endwhile;
-
-    SQRT := SQRT -1; % subtract one SQRT is <= sqrt(N)
-
-    writeInt SQRT;
-
-    if 2 >= 2 then
-        N := N ** N;
-    else
-        N := N div N;
+    if (D + 3 < 0) then
+        E := F * D;
     endif;
 
-    N := 3 + 4 + 6 + 5 + 8 + 9 + 100029;
-    
+    while D + F < E do
+        E := E - 2;
+    endwhile;
+
+    & % this is an unexpected char in the text
 end
